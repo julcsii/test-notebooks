@@ -8,4 +8,4 @@ from utils.b import print_greeting
 
 # COMMAND ----------
 
-print_greeting("Julia")
+print_greeting("Julcsi")
