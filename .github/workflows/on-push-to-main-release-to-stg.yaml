@@ -20,4 +20,4 @@ jobs:
     # 2) Update repo on STG
     - name: Update repo on STG
       run: |
-        curl -n -X PATCH $DATABRICKS_BASE_URL_STG/api/2.0/repos/$DATABRICKS_REPO_ID_STG -H "Authorization: Bearer ${DATABRICKS_TOKEN_STG}" -d '{"branch": "main"}'
+        curl PATCH $DATABRICKS_BASE_URL_STG/api/2.0/repos/$DATABRICKS_REPO_ID_STG -H "Authorization: Bearer ${DATABRICKS_TOKEN_STG}" -d '{"branch": "main"}'
