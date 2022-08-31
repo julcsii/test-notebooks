@@ -20,10 +20,4 @@ jobs:
     # 2) Update repo on STG
     - name: Update repo on STG
       run: |
-        code=$(curl -w "%{http_code}\n" -o output.txt -n -X PATCH $DATABRICKS_BASE_URL_STG/api/2.0/repos/$DATABRICKS_REPO_ID_STG -H "Authorization: Bearer ${DATABRICKS_TOKEN_STG}" -d '{"branch": "main"}')
-        if [[ "code" -ne 200 ]]; then
-          echo "Updating of respository failed on STG!"
-          cat output.txt
-          exit 1
-        fi
-  
+        curl -n -X PATCH $DATABRICKS_BASE_URL_STG/api/2.0/repos/$DATABRICKS_REPO_ID_STG -H "Authorization: Bearer ${DATABRICKS_TOKEN_STG}" -d '{"branch": "main"}'
