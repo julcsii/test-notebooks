@@ -1,0 +1,32 @@
+name: Release to STG
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    env:
+      DATABRICKS_BASE_URL_PRD: ${{ secrets.DATABRICKS_BASE_URL_STG }}
+      DATABRICKS_TOKEN_PRD: ${{ secrets.DATABRICKS_TOKEN_STG }}
+      DATABRICKS_REPO_ID_PRD: ${{ secrets.DATABRICKS_REPO_ID_STG }}
+
+    steps:
+    # 1) Checkout
+    - uses: actions/checkout@v2
+    
+    - name: Print tag
+      run: echo $GITHUB_REF
+
+    # 2) Update repo on PRD
+    - name: Update databricks-notebooks repo on PRD
+      run: |
+        code=$(curl -w "%{http_code}\n" -o output.txt -n -X PATCH $DATABRICKS_BASE_URL_STG/api/2.0/repos/$DATABRICKS_REPO_ID_STG -H "Authorization: Bearer ${DATABRICKS_TOKEN_PRD}" -d '{"tag": $GITHUB_REF}')
+        if [[ "code" -ne 200 ]]; then
+          echo "Updating of respository failed on PRD!"
+          cat output.txt
+          exit 1
+        fi
