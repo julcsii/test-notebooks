@@ -10,23 +10,14 @@ jobs:
     runs-on: ubuntu-latest
 
     env:
-      DATABRICKS_BASE_URL_PRD: ${{ secrets.DATABRICKS_BASE_URL_STG }}
-      DATABRICKS_TOKEN_PRD: ${{ secrets.DATABRICKS_TOKEN_STG }}
-      DATABRICKS_REPO_ID_PRD: ${{ secrets.DATABRICKS_REPO_ID_STG }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_STG }}
+      DATABRICKS_REPO_ID_STG: ${{ secrets.DATABRICKS_REPO_ID_STG }}
 
     steps:
-    # 1) Checkout
     - uses: actions/checkout@v2
     
     - name: Set env
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
 
-    # 2) Update repo on PRD
-    - name: Update databricks-notebooks repo on PRD
-      run: |
-        code=$(curl -w "%{http_code}\n" -o output.txt -n -X PATCH $DATABRICKS_BASE_URL_STG/api/2.0/repos/$DATABRICKS_REPO_ID_STG -H "Authorization: Bearer ${DATABRICKS_TOKEN_PRD}" -d '{"tag": "$RELEASE_VERSION"}')
-        if [[ "code" -ne 200 ]]; then
-          echo "Updating of respository failed on PRD!"
-          cat output.txt
-          exit 1
-        fi
+    - name: Update repo
+      run: databricks repos update --repo-id $DATABRICKS_REPO_ID_STG --tag $RELEASE_VERSION
