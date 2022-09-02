@@ -4,8 +4,13 @@
 
 # COMMAND ----------
 
+dbutils.widgets.text("first_name", "")
+first_name = dbutils.widgets.get("first_name")
+
+# COMMAND ----------
+
 from utils.b import print_greeting
 
 # COMMAND ----------
 
-print_greeting("Julcsi")
+print_greeting(first_name)
