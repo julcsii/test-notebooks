@@ -1,4 +1,4 @@
-name: Release to STG
+name: Release to PRD
 
 on:
   release:
@@ -11,8 +11,8 @@ jobs:
 
     env:
       DATABRICKS_HOST: "https://westeurope.azuredatabricks.net"
-      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_STG }}
-      DATABRICKS_REPO_ID_STG: ${{ secrets.DATABRICKS_REPO_ID_STG }}
+      DATABRICKS_TOKEN: ${{ secrets.DATABRICKS_TOKEN_PRD }}
+      DATABRICKS_REPO_ID: ${{ secrets.DATABRICKS_REPO_ID_PRD }}
 
     steps:
     - name: Checkout
@@ -28,4 +28,4 @@ jobs:
     - name: Set env
       run: echo "RELEASE_VERSION=${GITHUB_REF#refs/*/}" >> $GITHUB_ENV
     - name: Update repo
-      run: databricks repos update --repo-id $DATABRICKS_REPO_ID_STG --tag $RELEASE_VERSION
+      run: databricks repos update --repo-id $DATABRICKS_REPO_ID --tag $RELEASE_VERSION
