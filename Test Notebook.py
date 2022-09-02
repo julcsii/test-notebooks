@@ -1,6 +1,6 @@
 # Databricks notebook source
 # MAGIC %md
-# MAGIC This is a test notebook that imports from utility files.
+# MAGIC This is a test notebook that imports from utility files, uses parameters and a library.
 
 # COMMAND ----------
 
