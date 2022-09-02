@@ -1,2 +1,2 @@
-def greet(name: str) -> str:
-  return f"Hello {name}"
+def greet(name: Optional[str]="World") -> str:
+  return f"Hello {name}!"
