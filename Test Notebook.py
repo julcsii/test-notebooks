@@ -43,7 +43,7 @@ with mlflow.start_run(experiment_id="1105835291298026") as run:
 
   iris = datasets.load_iris()
   iris_train = pd.DataFrame(iris.data, columns=iris.feature_names)
-  clf = RandomForestClassifier(max_depth=7, random_state=0)
+  clf = RandomForestClassifier(max_depth=4, random_state=42)
   clf.fit(iris_train, iris.target)
   signature = infer_signature(iris_train, clf.predict(iris_train))
   mlflow.sklearn.log_model(clf, "model", signature=signature)
